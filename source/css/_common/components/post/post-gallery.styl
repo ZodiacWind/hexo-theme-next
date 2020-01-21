@@ -1,3 +1,5 @@
+// Original style
+/*
 .post-gallery {
   align-items: center;
   display: grid;
@@ -16,5 +18,27 @@
 
   img {
     margin: 0;
+  }
+}
+*/
+
+
+// customized styles
+.post-gallery {
+  display: flex;
+  margin-bottom: 20px;
+
+  a {
+    // For fancybox
+    border: 0;
+  }
+
+  img {
+    margin: 5px;
+    display: inline-flex;
+    width: 100px;
+    height: auto;
+    flex-grow: 1;
+    align-self: flex-start;
   }
 }

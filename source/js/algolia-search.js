@@ -1,9 +1,19 @@
 /* global instantsearch, CONFIG */
 
 window.addEventListener('DOMContentLoaded', () => {
-  const algoliaSettings = CONFIG.algolia;
+  var algoliaSettings = CONFIG.algolia;
+  var isAlgoliaSettingsValid = algoliaSettings.appID
+                            && algoliaSettings.apiKey
+                            && algoliaSettings.indexName;
+  window.console.log(algoliaSettings.appID);
+  window.console.log(algoliaSettings.apiKey);
+  window.console.log(algoliaSettings.indexName);
+  if (!isAlgoliaSettingsValid) {
+    window.console.error('Algolia Settings are invalid.');
+    return;
+  }
 
-  let search = instantsearch({
+  var search = instantsearch({
     appId         : algoliaSettings.appID,
     apiKey        : algoliaSettings.apiKey,
     indexName     : algoliaSettings.indexName,
@@ -46,9 +56,20 @@ window.addEventListener('DOMContentLoaded', () => {
       container  : '#algolia-hits',
       hitsPerPage: algoliaSettings.hits.per_page || 10,
       templates  : {
-        item: data => {
-          let link = data.permalink ? data.permalink : CONFIG.root + data.path;
-          return `<a href="${link}" class="algolia-hit-item-link">${data._highlightResult.title.value}</a>`;
+        item: function(data) {
+          var link = data.permalink ? data.permalink : CONFIG.root + data.path;
+          return (
+              '<a href="' + link + '" class="algolia-hit-item-link">'
+                            + '<div class="algolia-hit-item-title">'
+                            + data._highlightResult.title.value + '</div>'
+                            + '<div class="algolia-hit-item-content">'
+                            + data._snippetResult.contentStripTruncate.value + '</div>'
+                            + '</a>');
+          // return (
+          //   '<a href="' + link + '" class="algolia-hit-item-link">'
+          // + data._highlightResult.title.value
+          // + '</a>'
+          // );
         },
         empty: data => {
           return `<div id="algolia-hits-empty">
