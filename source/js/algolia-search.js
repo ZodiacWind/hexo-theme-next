@@ -14,9 +14,8 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   var search = instantsearch({
-    appId         : algoliaSettings.appID,
-    apiKey        : algoliaSettings.apiKey,
     indexName     : algoliaSettings.indexName,
+    searchClient  : algoliasearch(algoliaSettings.appID,algoliaSettings.apiKey),
     searchFunction: helper => {
       let searchInput = document.querySelector('.search-input');
       if (searchInput.value) {

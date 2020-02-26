@@ -36,12 +36,4 @@
       </a>
     {%- endif %}
   </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-      {%- if theme.algolia_search.enable or theme.local_search.enable %}
-        <i class="fa fa-search fa-fw fa-lg"></i>
-      {%- endif %}
-    </div>
-  </div>
 </div>
