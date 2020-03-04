@@ -1,7 +1,8 @@
 /* global instantsearch, algoliasearch, CONFIG */
 
 window.addEventListener('DOMContentLoaded', () => {
-  var algoliaSettings = CONFIG.algolia;
+  const algoliaSettings = CONFIG.algolia;
+  const { indexName, appID, apiKey } = algoliaSettings;
   var isAlgoliaSettingsValid = algoliaSettings.appID
                             && algoliaSettings.apiKey
                             && algoliaSettings.indexName;
@@ -13,9 +14,9 @@ window.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  var search = instantsearch({
-    indexName     : algoliaSettings.indexName,
-    searchClient  : algoliasearch(algoliaSettings.appID,algoliaSettings.apiKey),
+  let search = instantsearch({
+    indexName     : indexName,
+    searchClient  : algoliasearch(appID,apiKey),
     searchFunction: helper => {
       let searchInput = document.querySelector('.search-input');
       if (searchInput.value) {
@@ -64,10 +65,18 @@ window.addEventListener('DOMContentLoaded', () => {
 
     instantsearch.widgets.hits({
       container  : '#algolia-hits',
-      hitsPerPage: algoliaSettings.hits.per_page || 10,
       templates  : {
-        item: function(data) {
-          var link = data.permalink ? data.permalink : CONFIG.root + data.path;
+        item: data => {
+          // console.log(typeof data._snippetResult)
+          // console.log(data._snippetResult)
+          let link = data.permalink ? data.permalink : CONFIG.root + data.path;
+          if (typeof data._snippetResult == 'undefined') {
+            return (
+              '<a href="' + link + '" class="algolia-hit-item-link">'
+            + data._highlightResult.title.value
+            + '</a>'
+            );
+          }
           return (
               '<a href="' + link + '" class="algolia-hit-item-link">'
                             + '<div class="algolia-hit-item-title">'
