@@ -21,7 +21,7 @@
 
   {%- if config.symbols_count_time.total_symbols %}
     <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
+    <span class="post-meta-item-icon">∏
       <i class="fa fa-chart-area"></i>
     </span>
     {%- if theme.symbols_count_time.item_text_total %}
@@ -46,7 +46,8 @@
   <div class="powered-by">
     {%- set next_site = 'https://theme-next.org' %}
     {%- if theme.scheme !== 'Gemini' %}
-      {%- set next_site = 'https://' + theme.scheme | lower + '.theme-next.org' %}
+      {# {%- set next_site = 'https://' + theme.scheme | lower + '.theme-next.org' %} #}
+      {%- set next_site = 'https://theme-next.org' %} 
     {%- endif %}
     {{- __('footer.powered', next_url('https://hexo.io', 'Hexo', {class: 'theme-link'}) + ' & ' + next_url(next_site, 'NexT.' + theme.scheme, {class: 'theme-link'})) }}
   </div>
